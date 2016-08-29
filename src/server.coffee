@@ -10,6 +10,7 @@ meshbluHealthcheck = require 'express-meshblu-healthcheck'
 
 Router             = require './router'
 authorize          = require './middlewares/authorize'
+EtcdManager        = require './services/etcd-manager-service'
 EtcdDeployService  = require './services/etcd-deploy-service'
 debug              = require('debug')('etcd-deploy-service:server')
 
@@ -45,12 +46,14 @@ class Server
 
     app.use authorize.auth({ token: @deployClientKey })
 
+    etcdManager = new EtcdManager { @etcdUri }
+
     etcdDeployService = new EtcdDeployService {
       @requiredClusters,
       @deployStateUri,
       @deployStateKey,
       @deployClientKey,
-      @etcdUri,
+      etcdManager,
     }
     router = new Router { etcdDeployService }
 

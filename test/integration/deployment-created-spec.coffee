@@ -1,3 +1,4 @@
+url           = require 'url'
 request       = require 'request'
 shmock        = require 'shmock'
 enableDestroy = require 'server-destroy'
@@ -7,17 +8,32 @@ describe 'Deployment Create', ->
   beforeEach (done) ->
     @logFn = sinon.spy()
 
-    @deployStateService = shmock "#{0xdead}"
-    enableDestroy @deployStateService
+    @deployState = shmock()
+    enableDestroy @deployState
+
+    @etcd = shmock()
+    enableDestroy @etcd
+
+    deployStateUri = url.format {
+      protocol: 'http',
+      hostname: 'localhost',
+      port: @deployState.address().port
+    }
+
+    etcdUri = url.format {
+      protocol: 'http',
+      hostname: 'localhost',
+      port: @etcd.address().port
+    }
 
     serverOptions =
       port            : undefined,
       disableLogging  : true
       logFn           : @logFn
       deployStateKey  : 'deploy-state-key'
-      deployStateUri  : "http://localhost:#{0xdead}"
+      deployStateUri  : deployStateUri
       deployClientKey : 'deploy-client-key'
-      etcdUri         : 'something'
+      etcdUri         : etcdUri
 
     @server = new Server serverOptions
 
@@ -27,7 +43,8 @@ describe 'Deployment Create', ->
 
   afterEach ->
     @server.destroy()
-    @deployStateService.destroy()
+    @deployState.destroy()
+    @etcd.destroy()
 
   describe 'on POST /deployments', ->
     describe 'when called with a non-passing build', ->

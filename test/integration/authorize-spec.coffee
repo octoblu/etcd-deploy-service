@@ -1,21 +1,16 @@
 request       = require 'request'
-shmock        = require 'shmock'
-enableDestroy = require 'server-destroy'
 Server        = require '../../src/server'
 
 describe 'Authorize', ->
   beforeEach (done) ->
     @logFn = sinon.spy()
 
-    @deployStateService = shmock "#{0xdead}"
-    enableDestroy @deployStateService
-
     serverOptions =
       port            : undefined,
       disableLogging  : true
       logFn           : @logFn
       deployStateKey  : 'deploy-state-key'
-      deployStateUri  : "http://localhost:#{0xdead}"
+      deployStateUri  : 'something'
       deployClientKey : 'deploy-client-key'
       etcdUri         : 'something'
 
@@ -27,7 +22,6 @@ describe 'Authorize', ->
 
   afterEach ->
     @server.destroy()
-    @deployStateService.destroy()
 
   describe 'on GET /authorize', ->
     describe 'when authorized', ->

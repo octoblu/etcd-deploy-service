@@ -1,9 +1,9 @@
 class EtcdDeployService
-  constructor: ({ @deployStateUri, @deployStateKey, @deployClientKey, @etcdUri }) ->
+  constructor: ({ @requiredClusters, @deployStateUri, @deployStateKey, @deployClientKey, @etcdManager }) ->
     throw new Error 'Missing deployStateUri' unless @deployStateUri?
     throw new Error 'Missing deployStateKey' unless @deployStateKey?
     throw new Error 'Missing deployClientKey' unless @deployClientKey?
-    throw new Error 'Missing etcdUri' unless @etcdUri?
+    throw new Error 'Missing etcdManager' unless @etcdManager?
 
   deployCreated: ({ something }, callback) =>
     callback()
