@@ -17,6 +17,7 @@ class Server
   constructor: (options) ->
     { @logFn, @disableLogging, @port, @octobluRaven } = options
     { @deployStateUri, @deployStateKey, @deployClientKey, @etcdUri } = options
+    { @requiredClusters } = options
     throw new Error 'Missing deployStateUri'  unless @deployStateUri?
     throw new Error 'Missing deployStateKey'  unless @deployStateKey?
     throw new Error 'Missing deployClientKey' unless @deployClientKey?
@@ -44,7 +45,13 @@ class Server
 
     app.use authorize.auth({ token: @deployClientKey })
 
-    etcdDeployService = new EtcdDeployService { @deployStateUri, @deployStateKey, @deployClientKey, @etcdUri }
+    etcdDeployService = new EtcdDeployService {
+      @requiredClusters,
+      @deployStateUri,
+      @deployStateKey,
+      @deployClientKey,
+      @etcdUri,
+    }
     router = new Router { etcdDeployService }
 
     router.route app

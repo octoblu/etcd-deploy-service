@@ -15,7 +15,7 @@ describe 'Authorize', ->
       disableLogging  : true
       logFn           : @logFn
       deployStateKey  : 'deploy-state-key'
-      deployStateUri  : "http               : //localhost : #{0xdead}"
+      deployStateUri  : "http://localhost:#{0xdead}"
       deployClientKey : 'deploy-client-key'
       etcdUri         : 'something'
 

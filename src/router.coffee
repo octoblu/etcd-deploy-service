@@ -7,7 +7,8 @@ class Router
   route: (app) =>
     etcdDeployController = new EtcdDeployController { @etcdDeployService }
 
-    app.post '/deployments/changed', etcdDeployController.deployStateChange
+    app.post '/deployments', etcdDeployController.deployCreated
+    app.put  '/deployments', etcdDeployController.deployUpdated
     app.get  '/authorize', (request, response) => response.sendStatus(204)
 
 module.exports = Router

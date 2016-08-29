@@ -2,9 +2,14 @@ class EtcdDeployController
   constructor: ({@etcdDeployService}) ->
     throw new Error 'Missing etcdDeployService' unless @etcdDeployService?
 
-  deployStateChange: (request, response) =>
-    @etcdDeployService.deployStateChange { }, (error) =>
+  deployCreated: (request, response) =>
+    @etcdDeployService.deployCreated { }, (error) =>
       return response.sendError(error) if error?
-      response.sendStatus(200)
+      response.sendStatus(201)
+
+  deployUpdated: (request, response) =>
+    @etcdDeployService.deployUpdated { }, (error) =>
+      return response.sendError(error) if error?
+      response.sendStatus(204)
 
 module.exports = EtcdDeployController

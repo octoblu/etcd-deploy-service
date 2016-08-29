@@ -5,7 +5,10 @@ class EtcdDeployService
     throw new Error 'Missing deployClientKey' unless @deployClientKey?
     throw new Error 'Missing etcdUri' unless @etcdUri?
 
-  deployStateChange: ({ something }, callback) =>
+  deployCreated: ({ something }, callback) =>
+    callback()
+
+  deployUpdated: ({ something }, callback) =>
     callback()
 
   _createError: (code, message) =>

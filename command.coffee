@@ -6,12 +6,13 @@ class Command
   constructor: ->
     @octobluRaven  = new OctobluRaven()
     @serverOptions = {
-      port            : process.env.PORT || 80
-      disableLogging  : process.env.DISABLE_LOGGING == "true"
-      deployStateUri  : process.env.DEPLOY_STATE_URI
-      deployStateKey  : process.env.DEPLOY_STATE_KEY
-      deployClientKey : process.env.DEPLOY_CLIENT_KEY
-      etcdUri         : process.env.ETCD_URI
+      port             : process.env.PORT || 80
+      disableLogging   : process.env.DISABLE_LOGGING == "true"
+      deployStateUri   : process.env.DEPLOY_STATE_URI
+      deployStateKey   : process.env.DEPLOY_STATE_KEY
+      deployClientKey  : process.env.DEPLOY_CLIENT_KEY
+      requiredClusters : process.env.REQUIRED_CLUSTERS
+      etcdUri          : process.env.ETCD_URI
       @octobluRaven,
     }
 
