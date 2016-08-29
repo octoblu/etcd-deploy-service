@@ -8,8 +8,11 @@ class EtcdDeployService
   deployCreated: ({ something }, callback) =>
     callback()
 
-  deployUpdated: ({ something }, callback) =>
-    callback()
+  deployUpdated: ({ owner, repo, build }, callback) =>
+    return callback null unless build?.passing
+    return callback null unless build?.dockerUrl?
+    etcd = @etcdManager.getEtcd()
+    etcd.set "#{owner}/#{repo}", build.dockerUrl, callback
 
   _createError: (code, message) =>
     error = new Error message

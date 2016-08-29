@@ -3,12 +3,14 @@ class EtcdDeployController
     throw new Error 'Missing etcdDeployService' unless @etcdDeployService?
 
   deployCreated: (request, response) =>
-    @etcdDeployService.deployCreated { }, (error) =>
+    { repo, owner, build } = request.body
+    @etcdDeployService.deployCreated { repo, owner, build }, (error) =>
       return response.sendError(error) if error?
       response.sendStatus(201)
 
   deployUpdated: (request, response) =>
-    @etcdDeployService.deployUpdated { }, (error) =>
+    { repo, owner, build } = request.body
+    @etcdDeployService.deployUpdated { repo, owner, build }, (error) =>
       return response.sendError(error) if error?
       response.sendStatus(204)
 

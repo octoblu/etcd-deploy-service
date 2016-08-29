@@ -3,11 +3,11 @@ url  = require 'url'
 Etcd = require 'node-etcd'
 
 class EctdManager
-  constructor: ({ @etcdUri }) ->
+  constructor: ({ @etcdUri, @etcdClient }) ->
     throw new Error('Missing etcdUri') unless @etcdUri?
 
   getEtcd: =>
-    new Etcd @_getPeers()
+    return @etcdClient ? new Etcd @_getPeers()
 
   _getPeers: (callback=->) =>
     return unless @etcdUri?
